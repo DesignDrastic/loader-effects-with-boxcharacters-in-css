@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DD::Loading Effects</title>
+	<!-- Fonts API -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/common.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div class="dd-wrapper">
+		<div class="dd-center-content">
+			<div class="dd-elements">
+				<h1 class="dd-title">Loader Effects with Box/Characters in CSS</h1>
+				<div class="underline"></div>
+				<div class="loading-characters padding-tb-l" dd-effect="layer" dd-remove-done-animated="false"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div>
+				<div class="underline"></div>
+				<div class="loading-characters padding-tb-l ovn" dd-effect="fade"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div>
+				<div class="underline"></div>
+				<div class="loading-characters padding-tb-l" dd-effect="up-down"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div>
+				<div class="underline"></div>
+				<div class="loading-characters padding-tb-l ovn" dd-effect="rotate-lf" dd-remove-done-animated="false" dd-transition-time="700"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div>
+				<div class="underline"></div>
+				<div class="loading-characters padding-tb-l ovn" dd-effect="left-right" dd-remove-done-animated="false"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div>
+				<div class="underline"></div>
+				<div class="loading-characters padding-tb-l ovn" dd-effect="zoom-in" dd-remove-done-animated="false" dd-transition-time="300"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div>
+				<div class="underline"></div>
+				<div class="loading-characters padding-tb-l ovn" dd-effect="zoom-out" dd-remove-done-animated="false" dd-transition-time="300"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+	<script>
+		// var total_length = $('.loading-characters span').length;
+		var transition_time;
+		$('.loading-characters').each(function() {
+			var count = 0;
+			var effect = 'effect-'+$(this).attr('dd-effect');
+			var total_length = $(this).children('span').length;
+			var transition_time = ( $(this).attr('dd-transition-time') == undefined ? 500 : Number($(this).attr('dd-transition-time')));
+			$(this).addClass('effect-'+$(this).attr('dd-effect'));
+			loadingEffect(count, effect, transition_time, total_length);
+		});
+		// loadingEffect(count);
+		function loadingEffect(count, effect, transition_time, total_length) {
+			if( count < total_length ) {
+				count++;
+				setTimeout(function() {
+					$('.loading-characters.'+effect+' span:nth-child('+count+')').addClass('active');
+					loadingEffect(count, effect, transition_time, total_length);
+				}, transition_time);
+				setTimeout(function() {
+					if( $('.loading-characters.'+effect).attr('dd-remove-done-animated') != 'false' ) {
+						$('.loading-characters.'+effect+' span:nth-child('+(count - 1)+')').removeClass('active');
+					}
+				}, transition_time);
+			} else {
+				setTimeout(function() {
+					$('.loading-characters.'+effect+' span').removeClass('active');
+				}, transition_time);
+				count = -1;
+				loadingEffect(count, effect, transition_time, total_length);
+			}
+		}
+	</script>
+</body>
+</html>
